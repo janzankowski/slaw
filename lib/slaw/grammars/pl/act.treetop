@@ -361,8 +361,8 @@ module Slaw
         #####################
 
         rule signature
-          ('Dz.U.' / 'M.P.') space digit digit digit digit space ('Nr' space number)? space?  
-              'poz.' space number space?
+          ('Dz.' space? 'U.' / 'M.' space? 'P.') space digit digit digit digit space 
+              ('Nr' space number)? space? 'poz.' space number space?
         end
 
         rule act_type
