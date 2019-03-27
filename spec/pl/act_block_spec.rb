@@ -59,7 +59,7 @@ EOS
     <p>o zawodach pielęgniarki i położnej</p>
   </docTitle>
 </preface>'    
-  end
+  end  
 end
 
 
@@ -400,6 +400,100 @@ EOS
   <content>
     <p>Ustawa reguluje opodatkowanie podatkiem dochodowym dochodów osób fizycznych</p>
   </content>
+</section>'
+    end
+  
+    # Ustawa z dnia 12 października 1990 r. o Straży Granicznej
+    it 'ENTITY VARIATION: Having tirets.' do
+      node = parse :statute_level0_unit, <<EOS
+Art. 56. Mianowanie  na  kolejny  wyższy  stopień  następuje  stosownie  do zajmowanego  stanowiska  służbowego,  posiadanych  kwalifikacji  zawodowych  oraz w zależności  od  opinii  służbowej.  Nadanie  tego  stopnia  nie  może  jednak  nastąpić wcześniej niż po przesłużeniu w stopniu:
+@@INDENT2@@–  kaprala Straży Granicznej (mata Straży Granicznej) – 1 roku,
+@@INDENT2@@–  plutonowego  Straży  Granicznej  (bosmanmata  Straży  Granicznej)  – 2 lat,
+@@INDENT2@@–  sierżanta Straży Granicznej (bosmana Straży Granicznej) – 2 lat,
+@@INDENT2@@–  starszego  sierżanta  Straży  Granicznej  (starszego  bosmana  Straży Granicznej) – 2 lat,
+@@INDENT2@@–  młodszego chorążego Straży Granicznej – 3 lat,
+@@INDENT2@@–  chorążego Straży Granicznej – 3 lat,
+@@INDENT2@@–  starszego chorążego Straży Granicznej – 3 lat,
+@@INDENT2@@–  chorążego sztabowego Straży Granicznej – 4 lat,
+@@INDENT2@@–  podporucznika Straży Granicznej – 3 lat,
+@@INDENT2@@–  porucznika Straży Granicznej – 4 lat,
+@@INDENT2@@–  kapitana Straży Granicznej – 4 lat,
+@@INDENT2@@–  majora  Straży  Granicznej  (komandora  podporucznika  Straży Granicznej) – 3 lat,
+@@INDENT2@@–  podpułkownika  Straży  Granicznej  (komandora  porucznika  Straży Granicznej) – 4 lat.
+EOS
+      to_xml(node).should ==
+'<section id="section-56" refersTo="statute">
+  <num>56</num>
+  <intro>
+    <p>Mianowanie  na  kolejny  wyższy  stopień  następuje  stosownie  do zajmowanego  stanowiska  służbowego,  posiadanych  kwalifikacji  zawodowych  oraz w zależności  od  opinii  służbowej.  Nadanie  tego  stopnia  nie  może  jednak  nastąpić wcześniej niż po przesłużeniu w stopniu:</p>
+  </intro>
+  <list id="section-56.list-0">
+    <indent id="section-56.list-0.indent-0" refersTo="single_tiret">
+      <content>
+        <p>kaprala Straży Granicznej (mata Straży Granicznej) – 1 roku,</p>
+      </content>
+    </indent>
+    <indent id="section-56.list-0.indent-1" refersTo="single_tiret">
+      <content>
+        <p>plutonowego  Straży  Granicznej  (bosmanmata  Straży  Granicznej)  – 2 lat,</p>
+      </content>
+    </indent>
+    <indent id="section-56.list-0.indent-2" refersTo="single_tiret">
+      <content>
+        <p>sierżanta Straży Granicznej (bosmana Straży Granicznej) – 2 lat,</p>
+      </content>
+    </indent>
+    <indent id="section-56.list-0.indent-3" refersTo="single_tiret">
+      <content>
+        <p>starszego  sierżanta  Straży  Granicznej  (starszego  bosmana  Straży Granicznej) – 2 lat,</p>
+      </content>
+    </indent>
+    <indent id="section-56.list-0.indent-4" refersTo="single_tiret">
+      <content>
+        <p>młodszego chorążego Straży Granicznej – 3 lat,</p>
+      </content>
+    </indent>
+    <indent id="section-56.list-0.indent-5" refersTo="single_tiret">
+      <content>
+        <p>chorążego Straży Granicznej – 3 lat,</p>
+      </content>
+    </indent>
+    <indent id="section-56.list-0.indent-6" refersTo="single_tiret">
+      <content>
+        <p>starszego chorążego Straży Granicznej – 3 lat,</p>
+      </content>
+    </indent>
+    <indent id="section-56.list-0.indent-7" refersTo="single_tiret">
+      <content>
+        <p>chorążego sztabowego Straży Granicznej – 4 lat,</p>
+      </content>
+    </indent>
+    <indent id="section-56.list-0.indent-8" refersTo="single_tiret">
+      <content>
+        <p>podporucznika Straży Granicznej – 3 lat,</p>
+      </content>
+    </indent>
+    <indent id="section-56.list-0.indent-9" refersTo="single_tiret">
+      <content>
+        <p>porucznika Straży Granicznej – 4 lat,</p>
+      </content>
+    </indent>
+    <indent id="section-56.list-0.indent-10" refersTo="single_tiret">
+      <content>
+        <p>kapitana Straży Granicznej – 4 lat,</p>
+      </content>
+    </indent>
+    <indent id="section-56.list-0.indent-11" refersTo="single_tiret">
+      <content>
+        <p>majora  Straży  Granicznej  (komandora  podporucznika  Straży Granicznej) – 3 lat,</p>
+      </content>
+    </indent>
+    <indent id="section-56.list-0.indent-12" refersTo="single_tiret">
+      <content>
+        <p>podpułkownika  Straży  Granicznej  (komandora  porucznika  Straży Granicznej) – 4 lat.</p>
+      </content>
+    </indent>
+  </list>
 </section>'
     end
   end

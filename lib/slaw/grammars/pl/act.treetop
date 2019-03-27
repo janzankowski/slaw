@@ -161,9 +161,16 @@ module Slaw
           #     1) This is some text.
           #     2) This is some text.
           #     - This is optional "wrap-up" text.
+          # Or (exception found e.g. in "Ustawa z dnia 12 października 1990 r. o Straży Granicznej",
+          # in art. 56 as of 2019-03-27; the tirets are at level @@INDENT2@@):
+          #     Art. 56 This is some text. This is some text. This is
+          #     some text:
+          #     – This is some text;
+          #     – This is some text;
+          #     – This is some text.
           statute_level0_unit_prefix intro
           children:(noncode_level1_unit / code_level1_unit / point / dashed_wrapup_for_points 
-              / block_paragraphs)* <StatuteLevel0>
+              / tiret / block_paragraphs)* <StatuteLevel0>
         end
 
         rule ordinance_level0_unit
