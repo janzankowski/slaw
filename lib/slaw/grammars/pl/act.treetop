@@ -343,7 +343,9 @@ module Slaw
         rule letter_prefix
           # a) foo
           # bb) foo
-          letters:letter+ ')'
+          # Let's hope there's never more than 4 letters.. Though see Art. 44* of
+          # 'ustawa z dnia 7 września 1991 r. o systemie oświaty'.
+          letters:letter 1..4 ')'
         end
 
         rule tiret_prefix
