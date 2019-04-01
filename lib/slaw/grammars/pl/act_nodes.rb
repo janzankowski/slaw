@@ -309,7 +309,7 @@ module Slaw
           def to_xml(b, *args)            
               b.preface { |b|
                 b.docNumber { |b|
-                  if not signature.empty?
+                  if not signature.elements.nil?
                     signature.elements.each { |element|
                       b << element.text_value
                     }
