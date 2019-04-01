@@ -97,7 +97,8 @@ module Slaw
         end
 
         rule preface
-          signature act_type act_date act_title <Preface>
+          # Why signature is optional: occasionally, ISAP doesn't print it.
+          signature:signature? act_type act_date act_title <Preface>
         end
 
         rule preamble

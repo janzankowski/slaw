@@ -58,8 +58,23 @@ EOS
   <docTitle>
     <p>o zawodach pielęgniarki i położnej</p>
   </docTitle>
-</preface>'    
-  end  
+</preface>'
+  end
+
+  it 'ENTITY VARIATION: Without signature' do
+    node = parse :preface, <<EOS
+USTAWA z dnia 15 lipca 2011 r. o zawodach pielęgniarki i położnej
+EOS
+    to_xml(node).should ==
+'<preface>
+  <docNumber/>
+  <docType>statute</docType>
+  <docDate>z dnia 15 lipca 2011 r. </docDate>
+  <docTitle>
+    <p>o zawodach pielęgniarki i położnej</p>
+  </docTitle>
+</preface>'
+  end
 end
 
 

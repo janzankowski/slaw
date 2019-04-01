@@ -196,7 +196,16 @@ module Slaw
           MANIFESTATION_URI = EXPRESSION_URI
 
           def to_xml(b, idprefix=nil, i=0)
-            b.act(contains: "originalVersion") { |b|
+            # Let's write out type of entire document (statute/ordinance) in the top XML element.
+            act_type = ""
+            if preface.act_type.text_value.delete(" ") == "USTAWA"
+              act_type = "statute"
+            end
+            if preface.act_type.text_value.delete(" ") == "ROZPORZĄDZENIE"
+              act_type = "ordinance"
+            end
+
+            b.act(contains: "originalVersion", type: act_type) { |b|
               write_meta(b)
               write_preface(b)
               write_preamble(b)
@@ -300,9 +309,11 @@ module Slaw
           def to_xml(b, *args)            
               b.preface { |b|
                 b.docNumber { |b|
-                  signature.elements.each { |element|
-                    b << element.text_value
-                  }
+                  if not signature.empty?
+                    signature.elements.each { |element|
+                      b << element.text_value
+                    }
+                  end
                 }
                 b.docType { |b|
                   if act_type.text_value.delete(" ") == "USTAWA"
