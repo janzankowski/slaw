@@ -107,8 +107,15 @@ module Slaw
         end
 
         rule body
-          children:(book / title / division / chapter / subdivision / statute_level0_unit
+          children:(part / book / title / division / chapter / subdivision / statute_level0_unit
               / ordinance_level0_unit / block_paragraphs)+ <Body>
+        end
+        
+        rule part
+          heading:part_heading
+          children:(book / title / division / chapter / subdivision / statute_level0_unit
+              / ordinance_level0_unit / block_paragraphs)*
+          <Part>
         end
 
         rule book
@@ -272,6 +279,10 @@ module Slaw
         # HEADINGS AND PREFIXES #
         #########################
 
+        rule part_heading
+          space? prefix:part_heading_prefix heading:('OGÓLNA' / 'SZCZEGÓLNA' / 'WOJSKOWA') eol
+        end
+
         rule book_heading
           space? prefix:book_heading_prefix heading:(newline? content)? eol
           <GenericHeading>
@@ -295,6 +306,10 @@ module Slaw
         rule subdivision_heading
           space? prefix:subdivision_heading_prefix heading:(newline? content)? eol
           <GenericHeading>
+        end
+        
+        rule part_heading_prefix
+          'CZ'i ('Ę'/'ę') ('Ś'/'ś') ('Ć'/'ć') space [ :-]*
         end
 
         rule book_heading_prefix
@@ -449,7 +464,7 @@ module Slaw
         # word, and is ignored. This allows escaping of section headings, etc.
 
         rule naked_statement
-          space? !(book_heading / title_heading / division_heading / chapter_heading
+          space? !(part_heading / book_heading / title_heading / division_heading / chapter_heading
               / subdivision_heading / statute_level0_unit_prefix / ordinance_level0_unit_prefix
               / noncode_level1_unit_prefix / code_level1_unit_prefix / schedule_title
               / point_prefix / letter_prefix / tiret_prefix / double_tiret_prefix
@@ -458,7 +473,7 @@ module Slaw
         end
 
         rule pre_body_statement
-          space? !(book_heading / title_heading / division_heading / chapter_heading
+          space? !(part_heading / book_heading / title_heading / division_heading / chapter_heading
               / subdivision_heading / statute_level0_unit_prefix / ordinance_level0_unit_prefix
               / noncode_level1_unit_prefix / code_level1_unit_prefix
               / schedule_title) '\\'? clauses eol

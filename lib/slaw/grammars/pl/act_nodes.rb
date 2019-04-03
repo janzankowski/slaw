@@ -349,6 +349,31 @@ module Slaw
           end
         end
 
+        class Part < Treetop::Runtime::SyntaxNode
+          def num
+            if heading.text_value.delete(" ").start_with?("CZĘŚĆOGÓLNA")
+              return "ogolna"
+            end
+            if heading.text_value.delete(" ").start_with?("CZĘŚĆSZCZEGÓLNA")
+              return "szczegolna"
+            end
+            if heading.text_value.delete(" ").start_with?("CZĘŚĆWOJSKOWA")
+              return "wojskowa"
+            end
+            raise "Unrecognized law part type: [" + heading.text_value + "]."
+          end
+
+          def to_xml(b, *args)
+            id = "part-#{num}"
+            idprefix = "#{id}."
+
+            b.part(id: id) { |b|
+              b.num("#{num}")
+              children.elements.each_with_index { |e, i| e.to_xml(b, idprefix, i) }
+            }
+          end
+        end
+
         class Book < Treetop::Runtime::SyntaxNode
           def num
             heading.num
