@@ -171,7 +171,11 @@ EOS
     end
 
     it 'ENTITY VARIATION: Noncode statute, all levels.' do
+    # It's not really true it's entirely noncode statute. Noncode statutes don't have "CZĘŚĆ"
+    # and "KSIĘGA". Still, it works for the sake of exercising the grammar.
+    end
       node = parse :body, <<EOS
+CZĘŚĆ WOJSKOWA
 KSIĘGA ÓSMA
 Vvv
 TYTUŁ XVI
@@ -192,69 +196,103 @@ abc) Ccc ccc
 EOS
       to_xml(node).should ==
 '<body>
-  <book id="book-8">
-    <num>8</num>
-    <heading>Vvv</heading>
-    <title id="book-8.title-XVI">
-      <num>XVI</num>
-      <heading>Xxx</heading>
-      <division id="book-8.title-XVI.division-987">
-        <num>987</num>
-        <heading>Yyy</heading>
-        <chapter id="book-8.title-XVI.division-987.chapter-654">
-          <num>654</num>
-          <heading>Zzz</heading>
-          <subdivision id="book-8.title-XVI.division-987.chapter-654.subdivision-321">
-            <num>321</num>
-            <heading>Żżż</heading>
-            <section id="section-123" refersTo="statute">
-              <num>123</num>
-              <subsection id="section-123.subsection-456" refersTo="noncode_level1_unit">
-                <num>456</num>
-                <intro>
-                  <p>Aaa aaa</p>
-                </intro>
-                <point id="section-123.subsection-456.point-789" refersTo="point_unit">
-                  <num>789)</num>
+  <part id="part-wojskowa">
+    <num>wojskowa</num>
+    <book id="book-8">
+      <num>8</num>
+      <heading>Vvv</heading>
+      <title id="book-8.title-XVI">
+        <num>XVI</num>
+        <heading>Xxx</heading>
+        <division id="book-8.title-XVI.division-987">
+          <num>987</num>
+          <heading>Yyy</heading>
+          <chapter id="book-8.title-XVI.division-987.chapter-654">
+            <num>654</num>
+            <heading>Zzz</heading>
+            <subdivision id="book-8.title-XVI.division-987.chapter-654.subdivision-321">
+              <num>321</num>
+              <heading>Żżż</heading>
+              <section id="section-123" refersTo="statute">
+                <num>123</num>
+                <subsection id="section-123.subsection-456" refersTo="noncode_level1_unit">
+                  <num>456</num>
                   <intro>
-                    <p>Bbb bbb</p>
+                    <p>Aaa aaa</p>
                   </intro>
-                  <point id="section-123.subsection-456.point-789.point-abc" refersTo="letter_unit">
-                    <num>abc)</num>
+                  <point id="section-123.subsection-456.point-789" refersTo="point_unit">
+                    <num>789)</num>
                     <intro>
-                      <p>Ccc ccc</p>
+                      <p>Bbb bbb</p>
                     </intro>
-                    <list id="section-123.subsection-456.point-789.point-abc.list-0">
-                      <indent id="section-123.subsection-456.point-789.point-abc.list-0.indent-0" refersTo="single_tiret">
-                        <content>
-                          <p>Ddd ddd</p>
-                        </content>
-                      </indent>
-                      <list id="section-123.subsection-456.point-789.point-abc.list-0.list-1">
-                        <indent id="section-123.subsection-456.point-789.point-abc.list-0.list-1.indent-0" refersTo="double_tiret">
+                    <point id="section-123.subsection-456.point-789.point-abc" refersTo="letter_unit">
+                      <num>abc)</num>
+                      <intro>
+                        <p>Ccc ccc</p>
+                      </intro>
+                      <list id="section-123.subsection-456.point-789.point-abc.list-0">
+                        <indent id="section-123.subsection-456.point-789.point-abc.list-0.indent-0" refersTo="single_tiret">
                           <content>
-                            <p>Eee eee</p>
+                            <p>Ddd ddd</p>
                           </content>
                         </indent>
-                        <list id="section-123.subsection-456.point-789.point-abc.list-0.list-1.list-1">
-                          <indent id="section-123.subsection-456.point-789.point-abc.list-0.list-1.list-1.indent-0" refersTo="triple_tiret">
+                        <list id="section-123.subsection-456.point-789.point-abc.list-0.list-1">
+                          <indent id="section-123.subsection-456.point-789.point-abc.list-0.list-1.indent-0" refersTo="double_tiret">
                             <content>
-                              <p>Fff fff</p>
+                              <p>Eee eee</p>
                             </content>
                           </indent>
+                          <list id="section-123.subsection-456.point-789.point-abc.list-0.list-1.list-1">
+                            <indent id="section-123.subsection-456.point-789.point-abc.list-0.list-1.list-1.indent-0" refersTo="triple_tiret">
+                              <content>
+                                <p>Fff fff</p>
+                              </content>
+                            </indent>
+                          </list>
                         </list>
                       </list>
-                    </list>
+                    </point>
                   </point>
-                </point>
-              </subsection>
-            </section>
-          </subdivision>
-        </chapter>
-      </division>
-    </title>
-  </book>
+                </subsection>
+              </section>
+            </subdivision>
+          </chapter>
+        </division>
+      </title>
+    </book>
+  </part>
 </body>'
+    end
+  end
+
+
+
+  #-------------------------------------------------------------------------------
+  # Parts
+
+  describe 'parts' do
+    it 'should handle parts' do
+      node = parse :part, <<EOS
+CZĘŚĆ SZCZEGÓLNA
+
+Rozdział 7. Oznaczanie przepisów ustawy i ich systematyzacja
+
+§ 54. Podstawową jednostką redakcyjną ustawy jest artykuł.
+EOS
+      to_xml(node).should ==
+'<part id="part-szczegolna">
+  <num>szczegolna</num>
+  <chapter id="part-szczegolna.chapter-7">
+    <num>7</num>
+    <heading>Oznaczanie przepisów ustawy i ich systematyzacja</heading>
+    <section id="section-54" refersTo="ordinance">
+      <num>54</num>
+      <content>
+        <p>Podstawową jednostką redakcyjną ustawy jest artykuł.</p>
+      </content>
+    </section>
+  </chapter>
+</part>'
     end
   end
 
