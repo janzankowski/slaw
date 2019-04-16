@@ -333,7 +333,14 @@ module Slaw
         end
 
         rule statute_level0_unit_prefix
-          ('Art.'i / ('Artyku'i 'ł'/'Ł')) space number_letter superscript '.'
+          # Art. 123.
+          # Art. 123abc.
+          # Art. 123ł.
+          # Art. 123–456.
+          # Art. 123@@SUPERSCRIPT@@456##SUPERSCRIPT##
+          # I don't know how to make the range simpler.. :(
+          (('Art.'i / ('Artyku'i 'ł'/'Ł')) space
+              num_letter_superscript range:(('–' num_letter_superscript) / '') '.')
         end
 
         rule ordinance_level0_unit_prefix
@@ -479,6 +486,11 @@ module Slaw
               / schedule_title) '\\'? clauses eol
           <NakedStatement>
         end
+
+        # Shorthand.
+        rule num_letter_superscript
+          number_letter superscript
+        end        
 
         # I can't find a way to put OPTIONAL superscript inside the "_prefix" rules so I make
         # it non-optional there and instead give an empty string alternative here.
