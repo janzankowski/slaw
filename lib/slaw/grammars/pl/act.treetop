@@ -340,21 +340,19 @@ module Slaw
           # Art. 123@@SUPERSCRIPT@@456##SUPERSCRIPT##
           # I don't know how to make the range simpler.. :(
           (('Art.'i / ('Artyku'i 'ł'/'Ł')) space
-              num_letter_superscript range:(('–' num_letter_superscript) / '') '.')
+              num_letter_superscript range:((space? '–' space? num_letter_superscript) / '') '.')
         end
 
         rule ordinance_level0_unit_prefix
           '§' space number_letter superscript '.'
         end
 
-        # TODO: Add superscript possibility for units lower than level 0.
-
         rule noncode_level1_unit_prefix
-          number_letter '.'
+          number_letter superscript '.'
         end
 
         rule code_level1_unit_prefix
-          '§' space number_letter '.'
+          '§' space number_letter superscript '.'
         end
 
         rule point_prefix

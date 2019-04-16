@@ -502,11 +502,11 @@ module Slaw
           end
         end
 
-        # TODO: Add superscript possibility for units lower than level 0.
-
         class NoncodeLevel1 < BlockWithIntroAndChildren
           def num
-            noncode_level1_unit_prefix.number_letter.text_value
+            (noncode_level1_unit_prefix.number_letter.text_value +
+              (noncode_level1_unit_prefix.superscript.respond_to?('number_letter') ?
+                ("^" + noncode_level1_unit_prefix.superscript.number_letter.text_value) : ""))
           end
 
           def to_xml(b, idprefix='', *args)
@@ -522,7 +522,9 @@ module Slaw
 
         class CodeLevel1 < BlockWithIntroAndChildren
           def num
-            code_level1_unit_prefix.number_letter.text_value
+            (code_level1_unit_prefix.number_letter.text_value +
+              (code_level1_unit_prefix.superscript.respond_to?('number_letter') ?
+                ("^" + code_level1_unit_prefix.superscript.number_letter.text_value) : ""))
           end
   
           def to_xml(b, idprefix='', *args)
