@@ -842,6 +842,20 @@ EOS
   </point>
 </subsection>'
     end
+
+    it 'ENTITY VARIATION: With superscript' do
+      node = parse :noncode_level1_unit, <<EOS
+1@@SUPERSCRIPT@@2##SUPERSCRIPT##. Każdą samodzielną myśl ujmuje się w odrębny artykuł.
+EOS
+
+      to_xml(node).should ==
+'<subsection id="subsection-1^2" refersTo="noncode_level1_unit">
+  <num>1^2</num>
+  <content>
+    <p>Każdą samodzielną myśl ujmuje się w odrębny artykuł.</p>
+  </content>
+</subsection>'
+    end
   end
 
 
