@@ -173,7 +173,6 @@ EOS
     it 'ENTITY VARIATION: Noncode statute, all levels.' do
     # It's not really true it's entirely noncode statute. Noncode statutes don't have "CZĘŚĆ"
     # and "KSIĘGA". Still, it works for the sake of exercising the grammar.
-    end
       node = parse :body, <<EOS
 CZĘŚĆ WOJSKOWA
 KSIĘGA ÓSMA
@@ -452,6 +451,32 @@ EOS
   <num>123^456</num>
   <content>
     <p>Ustawa reguluje opodatkowanie podatkiem dochodowym dochodów osób fizycznych</p>
+  </content>
+</section>'
+    end
+
+    it 'ENTITY VARIATION: With range.' do
+      node = parse :statute_level0_unit, <<EOS
+Art. 12–34. (pominięte)
+EOS
+      to_xml(node).should ==
+'<section id="section-12&#x2013;34" refersTo="statute">
+  <num>12–34</num>
+  <content>
+    <p>(pominięte)</p>
+  </content>
+</section>'
+    end
+
+    it 'ENTITY VARIATION: With range and superscripts.' do
+      node = parse :statute_level0_unit, <<EOS
+Art. 12@@SUPERSCRIPT@@98##SUPERSCRIPT##–34@@SUPERSCRIPT@@76##SUPERSCRIPT##. (pominięte)
+EOS
+      to_xml(node).should ==
+'<section id="section-12^98&#x2013;34^76" refersTo="statute">
+  <num>12^98–34^76</num>
+  <content>
+    <p>(pominięte)</p>
   </content>
 </section>'
     end

@@ -456,9 +456,21 @@ module Slaw
 
         class StatuteLevel0 < BlockWithIntroAndChildren
           def num
-            (statute_level0_unit_prefix.number_letter.text_value +
-              (statute_level0_unit_prefix.superscript.respond_to?('number_letter') ?
-                ("^" + statute_level0_unit_prefix.superscript.number_letter.text_value) : ""))
+            id1 = statute_level0_unit_prefix.num_letter_superscript
+            range = statute_level0_unit_prefix.range
+            if range.respond_to?('num_letter_superscript')
+              id2 = range.num_letter_superscript
+              return id1.number_letter.text_value +
+                ((id1.superscript.respond_to?('number_letter') ?
+                  ("^" + id1.superscript.number_letter.text_value) : "")) +
+                    "–" + id2.number_letter.text_value +
+                    (id2.superscript.respond_to?('number_letter') ?
+                      ("^" + id2.superscript.number_letter.text_value) : "")
+            else
+              return id1.number_letter.text_value +
+                (id1.superscript.respond_to?('number_letter') ?
+                  ("^" + id1.superscript.number_letter.text_value) : "")
+            end
           end
 
           def to_xml(b, *args)
